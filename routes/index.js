@@ -9,10 +9,13 @@ const users = {}
 const ajax = require('../api/ajax')
 var svgCaptcha = require('svg-captcha')
 
+
+
 /*
 密码登陆
  */
 router.post('/login_pwd', function (req, res) {
+ 
   const name = req.body.name
   const pwd = md5(req.body.pwd)
   const captcha = req.body.captcha.toLowerCase()
@@ -24,11 +27,14 @@ router.post('/login_pwd', function (req, res) {
   }
   // 删除保存的验证码
   delete req.session.captcha
-
+console.log('name------',name)
   UserModel.findOne({name}, function (err, user) {
+     
+    
     if (user) {
-      console.log('findUser', user)
-      if (user.pwd !== pwd) {
+      console.log('----------------',user)
+      console.log('findUser', pwd)
+      if (md5(user.pwd) !== pwd) {
         res.send({code: 1, msg: '用户名或密码不正确!'})
       } else {
         req.session.userid = user._id

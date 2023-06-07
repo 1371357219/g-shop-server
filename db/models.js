@@ -12,7 +12,7 @@
  */
 // 1. 连接数据库
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/guigu_zhipin')
+mongoose.connect('mongodb://127.0.0.1:27017/guigu_zhipin')
 const conn = mongoose.connection
 conn.on('connected', function () {
   console.log('数据库连接成功!')
@@ -28,7 +28,15 @@ const userSchema = mongoose.Schema({
   'phone': {'type': String}
 })
 UserModel = mongoose.model('user', userSchema)
-
+UserModel.create({
+  name:"abc",
+  pwd:"123",
+  phone:"000"
+},(res,err)=>{
+  console.log('添加成功了')
+  console.log(err)
+})
+ 
 // 3. 向外暴露
 module.exports = {
   getModel(name) {
